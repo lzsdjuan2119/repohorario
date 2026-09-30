@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="sunset">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juan & Nathy • Horario y Todo 💕</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3 & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+  <!-- Custom Modern Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Fullscreen Couple Login Overlay -->
+  <div id="loginOverlay" class="login-screen-overlay">
+    <div class="login-card-container text-center">
+      <span class="fs-1 d-inline-block mb-1">💖</span>
+      <h3 class="fw-bold font-playfair mb-1">Juan & Nathy</h3>
+      <p class="text-muted small mb-4">Ingresa con tu perfil de pareja</p>
+
+      <div class="row g-3 mb-4">
+        <div class="col-6">
+          <div class="login-user-select-card selected" id="loginCardJuan" onclick="selectLoginProfile('juan')">
+            <div class="fs-1 mb-1" id="loginAvatarJuan">👦</div>
+            <div class="fw-bold text-dark" id="loginNameJuan">Juan</div>
+            <div class="small text-muted" id="loginNickJuan">Juancito</div>
+            <span class="badge bg-primary rounded-pill mt-2 small">Seleccionado</span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="login-user-select-card" id="loginCardNathy" onclick="selectLoginProfile('nathy')">
+            <div class="fs-1 mb-1" id="loginAvatarNathy">👧</div>
+            <div class="fw-bold text-dark" id="loginNameNathy">Nathy</div>
+            <div class="small text-muted" id="loginNickNathy">Nath</div>
+            <span class="badge bg-secondary rounded-pill mt-2 small d-none">Seleccionado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 text-start">
+        <label class="small text-muted fw-semibold">Ingresa tu PIN de seguridad:</label>
+        <input type="password" maxlength="8" class="form-control form-control-lg text-center fw-bold fs-3 rounded-3" id="loginPinInput" placeholder="••••" onkeydown="if(event.key==='Enter') performLogin()">
+        <div class="form-text text-center text-muted" style="font-size: 0.78rem;">PIN inicial por defecto: <strong>1234</strong></div>
+      </div>
+
+      <div id="loginErrorMessage" class="alert alert-danger py-2 small d-none"></div>
+
+      <button class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm" onclick="performLogin()">
+        <i class="bi bi-box-arrow-in-right me-1"></i> Entrar a Mi Espacio
+      </button>
+    </div>
+  </div>
+
+  <!-- Top Hero Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark couple-navbar sticky-top shadow-sm">
+    <div class="container-fluid px-lg-4">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <span class="brand-heart-icon"><i class="bi bi-heart-fill"></i></span>
+        <div class="brand-text">
+          <span class="brand-title" id="navCoupleTitle">Juan & Nathy</span>
+          <span class="brand-subtitle">Planificador de Pareja a Distancia</span>
+        </div>
+      </a>
+
+      <!-- Quick Countdown Pill in Navbar -->
+      <div class="d-none d-xxl-flex align-items-center countdown-nav-pill px-3 py-1 rounded-pill">
+        <i class="bi bi-airplane-engines text-white me-2 pulse-airplane"></i>
+        <span class="small text-white-50 me-2">Reencuentro:</span>
+        <span id="navCountdownText" class="fw-bold text-white small">Calculando...</span>
+      </div>
+
+      <!-- Action Buttons & User Switcher -->
+      <div class="d-flex align-items-center gap-2 ms-auto flex-wrap">
+
+        <!-- USER SWITCHER DROPDOWN (JUAN & NATHY) -->
+        <div class="dropdown">
+          <button class="btn btn-sm active-user-pill rounded-pill px-3 py-1 text-white d-flex align-items-center gap-2 shadow-sm border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="activeUserDropdownBtn">
+            <span class="user-avatar-circle" id="navUserAvatar">👦</span>
+            <div class="text-start d-none d-sm-block">
+              <div class="fw-bold small lh-1 text-white" id="navUserName">Juan</div>
+              <div class="text-white-50" style="font-size: 0.65rem;" id="navUserRole">Sesión Activa</div>
+            </div>
+            <i class="bi bi-chevron-down small text-white-50"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-2" style="min-width: 250px;">
+            <li class="px-3 py-2 border-bottom mb-1">
+              <span class="small text-muted fw-semibold">Usuario activo:</span>
+            </li>
+            <li>
+              <button class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" onclick="promptSwitchUser('juan')">
+                <span class="fs-4">👦</span>
+                <div>
+                  <div class="fw-bold text-dark" id="dropJuanName">Juan</div>
+                  <div class="small text-muted" id="dropJuanNick">Juancito</div>
+                </div>
+                <span class="badge bg-primary rounded-pill ms-auto small" id="badgeJuanActive">Activo</span>
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" onclick="promptSwitchUser('nathy')">
+                <span class="fs-4">👧</span>
+                <div>
+                  <div class="fw-bold text-dark" id="dropNathyName">Nathy</div>
+                  <div class="small text-muted" id="dropNathyNick">Nath</div>
+                </div>
+                <span class="badge bg-pink rounded-pill ms-auto small d-none" id="badgeNathyActive">Activo</span>
+              </button>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <button class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-primary" data-bs-toggle="modal" data-bs-target="#userProfileModal">
+                <i class="bi bi-person-gear fs-5"></i>
+                <span class="fw-semibold">Personalizar mi perfil</span>
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-warning-emphasis" data-bs-toggle="modal" data-bs-target="#changePinModal">
+                <i class="bi bi-key-fill fs-5 text-warning"></i>
+                <span class="fw-semibold">Cambiar mi PIN</span>
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-danger" data-bs-toggle="modal" data-bs-target="#loveNotesModal">
+                <i class="bi bi-envelope-heart-fill fs-5"></i>
+                <span class="fw-semibold">Buzón de Amor (<span id="dropNotesCount">2</span>)</span>
+              </button>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <button class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-danger" onclick="logoutUser()">
+                <i class="bi bi-box-arrow-right fs-5"></i>
+                <span class="fw-semibold">Cerrar Sesión</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Monthly Summary Button -->
+        <button class="btn btn-sm btn-outline-light rounded-pill px-3 d-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#monthlySummaryModal">
+          <i class="bi bi-pie-chart-fill"></i>
+          <span class="d-none d-md-inline">Resumen Mensual</span>
+        </button>
+
+        <!-- Export Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-sm btn-light rounded-pill px-3 dropdown-toggle d-flex align-items-center gap-1 shadow-sm text-primary fw-semibold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-download"></i>
+            <span class="d-none d-md-inline">Exportar</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
+            <li>
+              <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="/api/export/excel">
+                <i class="bi bi-file-earmark-spreadsheet-fill text-success fs-5"></i>
+                <div>
+                  <div class="fw-bold text-dark">Exportar a Excel (.xlsx)</div>
+                  <div class="small text-muted">Libro completo con 8 pestañas formateadas</div>
+                </div>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="/api/export/json">
+                <i class="bi bi-filetype-json text-warning fs-5"></i>
+                <div>
+                  <div class="fw-bold text-dark">Copia de Seguridad (.json)</div>
+                  <div class="small text-muted">Respaldo íntegro para restaurar</div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Auto-Sync Status Badge -->
+        <span class="sync-status-badge saved d-none d-sm-inline-flex me-1 shadow-sm" id="navSyncBadge" title="Estado de guardado">
+          <span class="sync-dot" id="syncDot"></span>
+          <span id="syncText">Sincronizado</span>
+        </span>
+
+        <!-- Save Button -->
+        <button class="btn btn-sm btn-save rounded-pill px-3 d-flex align-items-center gap-1 shadow-sm" id="btnSaveAll" title="Guardar cambios en el servidor">
+          <i class="bi bi-cloud-check-fill"></i>
+          <span class="d-none d-sm-inline">Guardar</span>
+        </button>
+
+        <!-- General Config & Themes Button -->
+        <button class="btn btn-sm btn-icon-round btn-outline-light rounded-circle" data-bs-toggle="modal" data-bs-target="#configModal" title="Configuración de Moneda, Temas y Parámetros">
+          <i class="bi bi-sliders"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;">
+    <div id="liveToast" class="toast align-items-center text-white bg-dark border-0 rounded-4 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+          <i class="bi bi-check-circle-fill text-success fs-5"></i> Cambios guardados con éxito.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-Time Couple Companion & Live Status Center -->
+  <div class="container-fluid px-lg-4 mt-3">
+    <div class="live-companion-hero p-3 p-md-4">
+      <div class="row g-3 align-items-center">
+        <!-- Partner 1: Juan Live Status -->
+        <div class="col-12 col-md-4 col-xl-3">
+          <div class="live-partner-pill cursor-pointer" onclick="openMoodModal('juan')" title="Haz clic para actualizar el estado de Juan">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="fs-3" id="stripJuanAvatar">👦</span>
+                <div>
+                  <strong class="text-primary small" id="stripJuanName">Juan</strong>
+                  <span class="badge bg-primary-subtle text-primary rounded-pill ms-1" style="font-size: 0.65rem;">En Vivo</span>
+                </div>
+              </div>
+              <span class="badge bg-light text-dark border rounded-pill small" id="liveJuanNowAct">💼 Trabajo</span>
+            </div>
+            <div class="small text-truncate fw-semibold text-dark mt-1" id="stripJuanMood">¡Contando los días para abrazarte! 🥰</div>
+          </div>
+        </div>
+
+        <!-- Center: Realtime Overlap & Couple Story -->
+        <div class="col-12 col-md-4 col-xl-6 text-center">
+          <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-2">
+            <span class="live-pulse-badge">
+              <span class="pulse-dot-red"></span> <span id="liveClockDisplay">Hoy • 13:46</span>
+            </span>
+            <div class="badge rounded-pill bg-danger-subtle text-danger px-3 py-1 fw-bold">
+              <i class="bi bi-heart-fill me-1"></i> <span id="stripAnniversaryDays">869 días juntos</span>
+            </div>
+          </div>
+
+          <div class="live-next-overlap-card d-inline-block px-3 py-2 max-w-700 mx-auto">
+            <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+              <i class="bi bi-stars text-warning fs-5"></i>
+              <span class="small fw-bold text-dark" id="liveOverlapSummary">Calculando conexión de hoy...</span>
+            </div>
+          </div>
+
+          <div class="small fw-semibold text-muted fst-italic text-truncate px-2 mt-2" id="stripCoupleMotto">
+            "La distancia separa cuerpos, nunca corazones ✨"
+          </div>
+        </div>
+
+        <!-- Partner 2: Nathy Live Status -->
+        <div class="col-12 col-md-4 col-xl-3">
+          <div class="live-partner-pill cursor-pointer" onclick="openMoodModal('nathy')" title="Haz clic para actualizar el estado de Nathy">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <div class="d-flex align-items-center gap-2">
+                <span class="fs-3" id="stripNathyAvatar">👧</span>
+                <div>
+                  <strong class="text-pink small" id="stripNathyName">Nathy</strong>
+                  <span class="badge bg-pink-subtle text-pink rounded-pill ms-1" style="font-size: 0.65rem;">En Vivo</span>
+                </div>
+              </div>
+              <span class="badge bg-light text-dark border rounded-pill small" id="liveNathyNowAct">💼 Trabajo</span>
+            </div>
+            <div class="small text-truncate fw-semibold text-dark mt-1" id="stripNathyMood">Te extraño mucho, mi amor 💕</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="container-fluid px-lg-4 py-3">
+
+    <!-- Subheader with Tabs Pill Navigation -->
+    <div class="couple-tabs-wrapper card shadow-sm border-0 rounded-4 mb-4 p-2">
+      <ul class="nav nav-pills nav-fill couple-pills gap-1" id="plannerTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-24h-btn" data-bs-toggle="pill" data-bs-target="#tab-24h" type="button" role="tab">
+            <i class="bi bi-columns-gap"></i>
+            <span class="tab-label">Horarios 24h & Comparador</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-juan-btn" data-bs-toggle="pill" data-bs-target="#tab-juan" type="button" role="tab">
+            <i class="bi bi-person-badge"></i>
+            <span class="tab-label" id="tabLabelJuan">Horario Juan</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-nathy-btn" data-bs-toggle="pill" data-bs-target="#tab-nathy" type="button" role="tab">
+            <i class="bi bi-person-hearts"></i>
+            <span class="tab-label" id="tabLabelNathy">Horario Nathy</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-finanzas-btn" data-bs-toggle="pill" data-bs-target="#tab-finanzas" type="button" role="tab">
+            <i class="bi bi-cash-coin"></i>
+            <span class="tab-label">Finanzas & Vuelos</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-vision-btn" data-bs-toggle="pill" data-bs-target="#tab-vision" type="button" role="tab">
+            <i class="bi bi-stars"></i>
+            <span class="tab-label">Vision Board & Regresiva</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-agenda-btn" data-bs-toggle="pill" data-bs-target="#tab-agenda" type="button" role="tab">
+            <i class="bi bi-calendar2-heart"></i>
+            <span class="tab-label">Agenda de Citas</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-boveda-btn" data-bs-toggle="pill" data-bs-target="#tab-boveda" type="button" role="tab">
+            <i class="bi bi-box2-heart"></i>
+            <span class="tab-label">Bóveda de Citas</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link rounded-pill d-flex align-items-center justify-content-center gap-2 py-2" id="tab-custom-btn" data-bs-toggle="pill" data-bs-target="#tab-custom" type="button" role="tab">
+            <i class="bi bi-palette-fill"></i>
+            <span class="tab-label">Personalización & Temas</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-content" id="plannerTabsContent">
+
+      <!-- ======================================================== -->
+      <!-- TAB 1: HORARIOS 24H & MATRIZ DE COMPATIBILIDAD           -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade show active" id="tab-24h" role="tabpanel">
+        
+        <!-- KPIs Panel Card (Top Highlights) -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-2">
+            <div class="card kpi-card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+              <div class="kpi-icon-wrap bg-success-subtle text-success mx-auto mb-2">
+                <i class="bi bi-stars"></i>
+              </div>
+              <div class="kpi-label text-muted small fw-semibold">Horas Libres Juntos</div>
+              <div class="kpi-value text-dark fw-bold fs-3" id="kpiCoincidentFree">27h</div>
+              <div class="kpi-sub small text-success fw-medium">Coincidencia libre</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-2">
+            <div class="card kpi-card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+              <div class="kpi-icon-wrap bg-pink-subtle text-pink mx-auto mb-2">
+                <i class="bi bi-heart-fill"></i>
+              </div>
+              <div class="kpi-label text-muted small fw-semibold">Citas / Llamadas</div>
+              <div class="kpi-value text-dark fw-bold fs-3" id="kpiDateHours">14h</div>
+              <div class="kpi-sub small text-pink fw-medium">Tiempo sagrado</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-3">
+            <div class="card kpi-card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+              <div class="kpi-icon-wrap bg-primary-subtle text-primary mx-auto mb-2">
+                <i class="bi bi-lightning-charge-fill"></i>
+              </div>
+              <div class="kpi-label text-muted small fw-semibold">Compatibilidad Semanal</div>
+              <div class="kpi-value text-primary fw-bold fs-3" id="kpiCompatibility">24.4%</div>
+              <div class="kpi-sub small text-muted">Sobre 168 horas semanales</div>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-2">
+            <div class="card kpi-card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+              <div class="kpi-icon-wrap bg-indigo-subtle text-indigo mx-auto mb-2">
+                <i class="bi bi-clock-history"></i>
+              </div>
+              <div class="kpi-label text-muted small fw-semibold">Total Conexión</div>
+              <div class="kpi-value text-dark fw-bold fs-3" id="kpiTotalConnection">41h</div>
+              <div class="kpi-sub small text-muted" id="kpiDailyAvg">Promedio 5.9 h/día</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-3">
+            <div class="card diagnosis-card border-0 shadow-sm rounded-4 p-3 h-100 text-white d-flex justify-content-center">
+              <div class="d-flex align-items-center gap-3">
+                <div class="diagnosis-badge-icon fs-1">✨</div>
+                <div>
+                  <div class="text-white-50 small fw-semibold text-uppercase letter-spacing-1">Diagnóstico Pareja</div>
+                  <div class="fw-bold fs-5 text-white" id="kpiDiagnosis">Excelente Tiempo Juntos</div>
+                  <div class="small text-white-50" id="kpiDiagnosisHint">Tienen un equilibrio ideal entre libertad y cariño mutuo.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matriz Comparativa Controls & Timeline/Heatmap Views -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          
+          <!-- Explainer Banner (Toggleable) -->
+          <div class="couple-explainer-card mb-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-info-circle-fill text-primary fs-5"></i>
+                <div>
+                  <strong class="text-dark small">¿Cómo entender este comparador de horarios?</strong>
+                  <div class="text-muted small" style="font-size: 0.78rem;">
+                    Cruza automáticamente las 24 horas del día entre Juan y Nathy. Cuando ambos están libres verás <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">✨ Libres Juntos</span>, y cuando agendan llamada verás <span class="badge bg-pink-subtle text-pink border border-pink rounded-pill">💖 Cita / Amor</span>.
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-link text-muted text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMatrixTips" aria-expanded="false">
+                <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+            <div class="collapse mt-2 pt-2 border-top border-light-subtle" id="collapseMatrixTips">
+              <div class="row g-2 small text-secondary">
+                <div class="col-md-4">
+                  <strong>✨ Horas de Conexión:</strong> Son momentos donde ninguno tiene compromisos laborales o de descanso. ¡Ideales para hablar o compartir!
+                </div>
+                <div class="col-md-4">
+                  <strong>💖 Tiempo Sagrado:</strong> Citas programadas que ambos respetan en su agenda semanal para cultivar la relación a distancia.
+                </div>
+                <div class="col-md-4">
+                  <strong>💡 Tip de Pareja:</strong> Usa la <em>Vista Diaria</em> para consultar fácilmente el día de hoy, o el <em>Mapa Semanal</em> para ver la semana completa.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls Bar: View Mode Switcher & Day Selector -->
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3 pb-2 border-bottom">
+            <div>
+              <h4 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                <i class="bi bi-intersect text-primary"></i> Comparador de Horarios de Pareja
+              </h4>
+              <p class="text-muted small mb-0">Disponibilidad cruzada hora por hora (00:00 a 23:00) para Juan y Nathy.</p>
+            </div>
+
+            <!-- View Mode Switcher -->
+            <div class="d-flex align-items-center gap-2">
+              <div class="btn-group rounded-pill p-1 bg-light border" role="group">
+                <button type="button" class="btn btn-sm rounded-pill active fw-semibold" id="btnViewTimeline" onclick="setMatrixViewMode('timeline')">
+                  <i class="bi bi-calendar-day me-1"></i> Vista Diaria
+                </button>
+                <button type="button" class="btn btn-sm rounded-pill fw-semibold text-secondary" id="btnViewHeatmap" onclick="setMatrixViewMode('heatmap')">
+                  <i class="bi bi-grid-3x3-gap me-1"></i> Mapa Semanal 7x24
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Day Selector Pills (Active for Timeline view) -->
+          <div id="daySelectorWrap" class="mb-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+              <div class="small fw-bold text-secondary d-flex align-items-center gap-1">
+                <i class="bi bi-calendar-event"></i> Selecciona un Día:
+              </div>
+              <div class="day-selector-pills" id="dayButtonsContainer">
+                <button class="day-btn-pill active" onclick="selectTimelineDay('TODAY')"><i class="bi bi-pin-angle-fill me-1"></i> Hoy</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Lunes')">Lunes</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Martes')">Martes</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Miércoles')">Miércoles</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Jueves')">Jueves</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Viernes')">Viernes</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Sábado')">Sábado</button>
+                <button class="day-btn-pill" onclick="selectTimelineDay('Domingo')">Domingo</button>
+              </div>
+            </div>
+
+            <!-- Golden Hours & Day Summary Card -->
+            <div class="card border-0 bg-light rounded-4 p-3 mb-3 border border-light-subtle" id="daySummaryCard">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="fs-4">🌟</span>
+                  <div>
+                    <strong class="text-dark small" id="daySummaryTitle">Horas de Oro de Hoy</strong>
+                    <div class="text-muted small" id="daySummaryText">Calculando disponibilidad...</div>
+                  </div>
+                </div>
+                <div class="d-flex gap-2">
+                  <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2 fw-semibold" id="dayFreeBadge">0h Libres</span>
+                  <span class="badge bg-pink-subtle text-pink rounded-pill px-3 py-2 fw-semibold" id="dayDateBadge">0h Cita</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Key Bar (Dynamic Categories) -->
+          <div class="p-2 px-3 bg-light rounded-4 mb-3 border border-light-subtle d-flex flex-wrap gap-2 align-items-center justify-content-between">
+            <div class="small fw-bold text-secondary">Categorías:</div>
+            <div class="d-flex flex-wrap gap-2 small" id="dynamicColorKeys">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- 1. VISTA DIARIA: TIMELINE COMPARATIVO -->
+          <div id="dailyTimelineWrap">
+            <div class="d-flex justify-content-between align-items-center px-2 py-1 mb-2 text-muted small fw-bold text-uppercase" style="font-size: 0.75rem;">
+              <div style="width: 32%;" class="text-primary text-truncate" id="tlJuanHeader">👦 Juan</div>
+              <div style="width: 36%;" class="text-center">Conexión / Compatibilidad</div>
+              <div style="width: 32%;" class="text-end text-pink text-truncate" id="tlNathyHeader">👧 Nathy</div>
+            </div>
+            <div id="dailyTimelineList" class="d-flex flex-column gap-1">
+              <!-- Dynamically injected timeline items -->
+            </div>
+          </div>
+
+          <!-- 2. VISTA SEMANAL: MAPA COMPLETO 7x24 -->
+          <div id="weeklyHeatmapWrap" class="d-none">
+            <div class="table-responsive schedule-table-container rounded-4 border border-light-subtle">
+              <table class="table table-bordered table-hover align-middle mb-0 text-center" id="matrixComparisonTable">
+                <thead class="table-light sticky-top">
+                  <tr id="matrixHeaderRow">
+                    <!-- Injected via JavaScript -->
+                  </tr>
+                </thead>
+                <tbody id="matrixTableBody">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 2: HORARIO JUAN                                      -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-juan" role="tabpanel">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="avatar-badge bg-primary text-white" id="badgeJuanHeaderAvatar">👦</span>
+                <h4 class="fw-bold text-dark mb-0" id="headerTitleJuan">Horario Semanal Individual • Juan</h4>
+              </div>
+              <p class="text-muted small mt-1 mb-0">Selecciona una categoría de la paleta y haz clic en cualquier celda para pintarla.</p>
+            </div>
+
+            <!-- Permission Notice -->
+            <div id="juanReadOnlyNotice" class="d-none">
+              <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2">
+                <i class="bi bi-lock-fill me-1 text-danger"></i> Modo Solo Lectura (Solo Juan puede editar este horario)
+              </span>
+            </div>
+          </div>
+
+          <!-- Visual Category Brush Toolbar -->
+          <div id="juanScheduleControls" class="p-3 bg-light rounded-4 border mb-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="small fw-bold text-secondary"><i class="bi bi-palette-fill me-1"></i>Pincel de Actividad:</span>
+                <span class="active-brush-pill" id="activeBrushJuanBadge">✨ Libre</span>
+                <div class="form-check form-switch d-inline-flex align-items-center gap-2 bg-white px-3 py-1 rounded-pill border shadow-sm m-0">
+                  <input class="form-check-input couple-time-switch" type="checkbox" role="switch" id="brushCoupleSwitch_juan" onchange="toggleActiveBrushCoupleTime('juan')" style="cursor: pointer; width: 2.2em; height: 1.15em;">
+                  <label class="form-check-label cursor-pointer small fw-bold" id="brushCoupleLabel_juan" for="brushCoupleSwitch_juan">
+                    Cuenta como tiempo en pareja: No (desactivado)
+                  </label>
+                </div>
+              </div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="fillWorkHours('juan')">
+                  <i class="bi bi-briefcase me-1"></i> Llenar Trabajo Lun-Vie
+                </button>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="fillSleepHours('juan')">
+                  <i class="bi bi-moon me-1"></i> Llenar Noches
+                </button>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="openCopyDayModal('juan')">
+                  <i class="bi bi-copy me-1"></i> Copiar Día a...
+                </button>
+              </div>
+            </div>
+            <div class="brush-toolbar-wrap" id="brushChipsJuan">
+              <!-- Dynamically populated brush chips -->
+            </div>
+          </div>
+
+          <!-- Schedule Grid Juan -->
+          <div class="table-responsive schedule-table-container rounded-4 border border-light-subtle">
+            <table class="table table-bordered table-hover align-middle mb-0 text-center" id="tableJuan">
+              <thead class="table-light sticky-top">
+                <tr>
+                  <th style="width: 100px;">Hora</th>
+                  <th>Lunes</th>
+                  <th>Martes</th>
+                  <th>Miércoles</th>
+                  <th>Jueves</th>
+                  <th>Viernes</th>
+                  <th>Sábado</th>
+                  <th>Domingo</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyJuan">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 3: HORARIO NATHY                                     -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-nathy" role="tabpanel">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="avatar-badge bg-pink text-white" id="badgeNathyHeaderAvatar">👧</span>
+                <h4 class="fw-bold text-dark mb-0" id="headerTitleNathy">Horario Semanal Individual • Nathy</h4>
+              </div>
+              <p class="text-muted small mt-1 mb-0">Personaliza la rutina horaria de Nathy y consulta las reglas de interacción por actividad.</p>
+            </div>
+
+            <!-- Permission Notice -->
+            <div id="nathyReadOnlyNotice" class="d-none">
+              <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2">
+                <i class="bi bi-lock-fill me-1 text-danger"></i> Modo Solo Lectura (Solo Nathy puede editar este horario)
+              </span>
+            </div>
+          </div>
+
+          <!-- Visual Category Brush Toolbar -->
+          <div id="nathyScheduleControls" class="p-3 bg-light rounded-4 border mb-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="small fw-bold text-secondary"><i class="bi bi-palette-fill me-1"></i>Pincel de Actividad:</span>
+                <span class="active-brush-pill" id="activeBrushNathyBadge">✨ Libre</span>
+                <div class="form-check form-switch d-inline-flex align-items-center gap-2 bg-white px-3 py-1 rounded-pill border shadow-sm m-0">
+                  <input class="form-check-input couple-time-switch" type="checkbox" role="switch" id="brushCoupleSwitch_nathy" onchange="toggleActiveBrushCoupleTime('nathy')" style="cursor: pointer; width: 2.2em; height: 1.15em;">
+                  <label class="form-check-label cursor-pointer small fw-bold" id="brushCoupleLabel_nathy" for="brushCoupleSwitch_nathy">
+                    Cuenta como tiempo en pareja: No (desactivado)
+                  </label>
+                </div>
+              </div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="fillWorkHours('nathy')">
+                  <i class="bi bi-briefcase me-1"></i> Llenar Trabajo Lun-Vie
+                </button>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="fillSleepHours('nathy')">
+                  <i class="bi bi-moon me-1"></i> Llenar Noches
+                </button>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="openCopyDayModal('nathy')">
+                  <i class="bi bi-copy me-1"></i> Copiar Día a...
+                </button>
+              </div>
+            </div>
+            <div class="brush-toolbar-wrap" id="brushChipsNathy">
+              <!-- Dynamically populated brush chips -->
+            </div>
+          </div>
+
+          <!-- Rules / Legend Banner -->
+          <div class="card border-0 bg-pink-subtle rounded-4 p-3 mb-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h6 class="fw-bold text-pink-dark mb-0 d-flex align-items-center gap-2">
+                <i class="bi bi-info-circle-fill"></i> Leyenda y Reglas de Interacción de la Pareja
+              </h6>
+              <span class="badge bg-white text-pink rounded-pill px-3 py-1 fw-semibold">Acuerdos Claros</span>
+            </div>
+            <div class="row g-2 small text-dark" id="rulesLegendContainer">
+              <!-- Dynamically populated from config categories -->
+            </div>
+          </div>
+
+          <!-- Schedule Grid Nathy -->
+          <div class="table-responsive schedule-table-container rounded-4 border border-light-subtle">
+            <table class="table table-bordered table-hover align-middle mb-0 text-center" id="tableNathy">
+              <thead class="table-light sticky-top">
+                <tr>
+                  <th style="width: 100px;">Hora</th>
+                  <th>Lunes</th>
+                  <th>Martes</th>
+                  <th>Miércoles</th>
+                  <th>Jueves</th>
+                  <th>Viernes</th>
+                  <th>Sábado</th>
+                  <th>Domingo</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyNathy">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 4: FINANZAS Y VUELOS                                 -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-finanzas" role="tabpanel">
+        
+        <!-- Educational Banner: Proportional Split Explanation -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+              <h5 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                <i class="bi bi-wallet2 text-primary"></i> Modelo de Aporte Proporcional y Equitativo
+              </h5>
+              <p class="text-muted small mb-0">Cada uno aporta exactamente en función a su capacidad real de ingresos. ¡Cero deudas y máxima tranquilidad!</p>
+            </div>
+            <!-- Currency Toggle -->
+            <div class="d-flex align-items-center gap-2">
+              <span class="small fw-semibold text-muted">Ver montos en:</span>
+              <div class="btn-group currency-toggle-group rounded-pill p-1 bg-light border shadow-sm" role="group">
+                <button type="button" class="btn btn-sm rounded-pill active" id="btnCurrUSD" onclick="setCurrencyView('USD')">
+                  💵 Dólares ($ USD)
+                </button>
+                <button type="button" class="btn btn-sm rounded-pill" id="btnCurrPEN" onclick="setCurrencyView('PEN')">
+                  🇵🇪 Soles (S/. PEN)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Split Meter Bar -->
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-1 small fw-bold">
+              <span class="text-primary"><span id="lblSplitJuanName">Juan</span>: S/. <span id="lblSplitJuanPEN">2,500</span> (<span id="lblSplitJuanPct">55.6%</span>)</span>
+              <span class="text-pink"><span id="lblSplitNathyName">Nathy</span>: S/. <span id="lblSplitNathyPEN">2,000</span> (<span id="lblSplitNathyPct">44.4%</span>)</span>
+            </div>
+            <div class="proportional-split-meter shadow-sm">
+              <div class="split-portion-juan" id="meterBarJuan" style="width: 55.6%;">55.6% Juan</div>
+              <div class="split-portion-nathy" id="meterBarNathy" style="width: 44.4%;">44.4% Nathy</div>
+            </div>
+            <div class="d-flex justify-content-between mt-1 text-muted" style="font-size: 0.73rem;">
+              <span>Aporte por cada $100 de gasto: <strong class="text-primary" id="lblShareExampleJuan">$55.56 USD</strong></span>
+              <span>Aporte por cada $100 de gasto: <strong class="text-pink" id="lblShareExampleNathy">$44.44 USD</strong></span>
+            </div>
+          </div>
+
+          <div class="couple-explainer-card">
+            <div class="small text-secondary">
+              <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+              <strong>¿Por qué este método es el mejor para la pareja?</strong> A diferencia del reparto 50/50 (donde quien gana menos agota todos sus ahorros), con la regla proporcional ambos reservan un porcentaje idéntico para sus gastos personales y ambos construyen el viaje en equipo de manera justa.
+            </div>
+          </div>
+        </div>
+
+        <!-- Incomes & Quick Converter Grid -->
+        <div class="row g-3 mb-4">
+          <!-- Incomes Card -->
+          <div class="col-12 col-xl-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-cash-stack text-success"></i> Ingresos Mensuales de Cada Uno
+                </h6>
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 fw-semibold" id="exchangeRateBadge">
+                  1 USD = 3.75 PEN
+                </span>
+              </div>
+
+              <div class="row g-3">
+                <!-- Juan Income -->
+                <div class="col-sm-6">
+                  <div class="p-3 rounded-4 bg-light border border-light-subtle">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="fw-bold text-dark" id="incomeLabelJuan">Juan</span>
+                      <span class="badge bg-primary rounded-pill px-2 py-1" id="badgeJuanPct">55.6%</span>
+                    </div>
+                    <div class="input-group mb-2">
+                      <span class="input-group-text bg-white border-end-0">S/.</span>
+                      <input type="number" class="form-control border-start-0 fw-bold" id="inputJuanPEN" value="2500" step="50" onchange="updateFinances()">
+                    </div>
+                    <div class="small text-muted d-flex justify-content-between">
+                      <span>Equivalente:</span>
+                      <span class="fw-bold text-dark" id="textJuanUSD">$666.67 USD</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Nathy Income -->
+                <div class="col-sm-6">
+                  <div class="p-3 rounded-4 bg-light border border-light-subtle">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="fw-bold text-dark" id="incomeLabelNathy">Nathy</span>
+                      <span class="badge bg-pink rounded-pill px-2 py-1 text-white" id="badgeNathyPct">44.4%</span>
+                    </div>
+                    <div class="input-group mb-2">
+                      <span class="input-group-text bg-white border-end-0">S/.</span>
+                      <input type="number" class="form-control border-start-0 fw-bold" id="inputNathyPEN" value="2000" step="50" onchange="updateFinances()">
+                    </div>
+                    <div class="small text-muted d-flex justify-content-between">
+                      <span>Equivalente:</span>
+                      <span class="fw-bold text-dark" id="textNathyUSD">$533.33 USD</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2 small text-muted">
+                <div>Ingreso Familiar Total: <strong class="text-dark" id="totalIncomeText">S/. 4,500.00 PEN ($1,200.00 USD)</strong></div>
+                <div class="badge bg-success-subtle text-success">Equidad Financiera Activa ✓</div>
+              </div>
+
+              <!-- Quick Currency Converter Widget -->
+              <div class="mt-3 pt-3 border-top">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                  <span class="small fw-bold text-secondary d-flex align-items-center gap-1">
+                    <i class="bi bi-arrow-left-right text-primary"></i> Conversor Rápido de Divisa:
+                  </span>
+                  <div class="d-flex align-items-center gap-2">
+                    <input type="number" class="form-control form-control-sm text-end fw-bold" id="quickConvVal" value="100" style="width: 100px;" oninput="runQuickConverter()">
+                    <select class="form-select form-select-sm" id="quickConvDir" style="width: 140px;" onchange="runQuickConverter()">
+                      <option value="USD2PEN">USD → PEN</option>
+                      <option value="PEN2USD">PEN → USD</option>
+                    </select>
+                    <span class="badge bg-light text-primary border px-3 py-2 fw-bold fs-6" id="quickConvResult">≈ S/. 375.00 PEN</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Goal & Savings Progress Card -->
+          <div class="col-12 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 reunion-goal-card text-white">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="fs-4">✈️</span>
+                  <h6 class="fw-bold mb-0">Fondo del Reencuentro</h6>
+                </div>
+                <span class="badge bg-white text-dark rounded-pill px-3 py-1 fw-bold" id="goalPercentBadge">67.5%</span>
+              </div>
+              <p class="text-white-50 small mb-2">Ahorro acumulado para vuelos y estadía.</p>
+
+              <div class="d-flex justify-content-between align-items-end mb-2">
+                <div>
+                  <div class="text-white-50 small">Acumulado</div>
+                  <div class="fs-3 fw-bold" id="savedAmountText">$1,350.00 USD</div>
+                  <div class="small text-white-50" id="savedAmountPEN">≈ S/. 5,062.50 PEN</div>
+                </div>
+                <div class="text-end">
+                  <div class="text-white-50 small">Meta</div>
+                  <div class="fs-5 fw-semibold text-white-50" id="targetAmountText">$2,000.00 USD</div>
+                  <div class="small text-white-50" id="remainingAmountText">Faltan $650.00 USD</div>
+                </div>
+              </div>
+
+              <div class="progress goal-progress mb-3" style="height: 12px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" id="goalProgressBar" style="width: 67.5%;"></div>
+              </div>
+
+              <div class="row g-2 align-items-center">
+                <div class="col-7">
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white text-dark border-0 fw-bold">$ USD</span>
+                    <input type="number" class="form-control border-0" id="inputSavedUSD" value="1350" step="50" onchange="updateGoalSavings()">
+                  </div>
+                </div>
+                <div class="col-5">
+                  <button class="btn btn-sm btn-light w-100 fw-bold rounded-pill text-primary" onclick="updateGoalSavings()">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Expenses Table with Category & Status Filters -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div>
+              <h5 class="fw-bold text-dark mb-0">Presupuesto y Partidas del Viaje</h5>
+              <p class="text-muted small mb-0">Cada partida desglosa la cuota exacta de Juan y Nathy con su estado de pago.</p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#newExpenseModal">
+                <i class="bi bi-plus-circle-fill"></i> Añadir Gasto
+              </button>
+            </div>
+          </div>
+
+          <!-- Expense Filters Bar -->
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 p-2 bg-light rounded-4 mb-3 border border-light-subtle">
+            <div class="d-flex flex-wrap gap-1 align-items-center" id="expenseCategoryFilterButtons">
+              <span class="small fw-bold text-secondary me-1">Categoría:</span>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill active px-3 py-1" onclick="filterExpenses('ALL', this)">Todas</button>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onclick="filterExpenses('Vuelos', this)">✈️ Vuelos</button>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onclick="filterExpenses('Alojamiento', this)">🏨 Alojamiento</button>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onclick="filterExpenses('Alimentación', this)">🍽️ Alimentación</button>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onclick="filterExpenses('Transporte', this)">🚗 Transporte</button>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onclick="filterExpenses('Ocio', this)">🎟️ Ocio</button>
+            </div>
+            <div class="d-flex gap-1 align-items-center">
+              <span class="small fw-bold text-secondary me-1">Estado:</span>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill active px-3 py-1" onclick="filterExpenseStatus('ALL', this)">Todos</button>
+              <button class="btn btn-sm btn-outline-success rounded-pill px-3 py-1" onclick="filterExpenseStatus('Pagado', this)">✓ Pagados</button>
+              <button class="btn btn-sm btn-outline-warning rounded-pill px-3 py-1" onclick="filterExpenseStatus('Pendiente', this)">⏳ Pendientes</button>
+            </div>
+          </div>
+
+          <!-- Table Responsive -->
+          <div class="table-responsive rounded-4 border border-light-subtle">
+            <table class="table table-hover align-middle mb-0" id="expensesTable">
+              <thead class="table-light">
+                <tr>
+                  <th>Concepto / Partida</th>
+                  <th>Categoría</th>
+                  <th id="thExpTotal">Total</th>
+                  <th class="text-primary" id="thExpenseJuan">Juan (55.6%)</th>
+                  <th class="text-pink" id="thExpenseNathy">Nathy (44.4%)</th>
+                  <th>Estado</th>
+                  <th class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="expensesTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+              <tfoot class="table-light fw-bold">
+                <tr>
+                  <td colspan="2">TOTAL PRESUPUESTADO</td>
+                  <td id="totalExpensesDisplay">$2,000.00</td>
+                  <td id="totalJuanShare" class="text-primary">$1,111.11</td>
+                  <td id="totalNathyShare" class="text-pink">$888.89</td>
+                  <td colspan="2"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 5: VISION BOARD & CUENTA REGRESIVA                   -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-vision" role="tabpanel">
+        
+        <!-- Live Countdown Hero Section -->
+        <div class="card countdown-hero-card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4 text-white text-center position-relative overflow-hidden">
+          <div class="position-relative z-1">
+            <span class="badge bg-white text-dark rounded-pill px-3 py-1 fw-bold text-uppercase letter-spacing-1 mb-2">
+              <i class="bi bi-airplane-fill text-primary me-1"></i> Operación Reencuentro
+            </span>
+            <h2 class="display-6 fw-bold mb-1 font-playfair">Cuenta Regresiva para Nuestro Abrazo</h2>
+            <p class="text-white-50 mb-4" id="targetDateSubtitle">Fecha prevista: 20 de Noviembre de 2026 • 18:00 hrs</p>
+
+            <!-- Real-time dynamic countdown counters -->
+            <div class="row g-2 justify-content-center max-w-700 mx-auto mb-4">
+              <div class="col-6 col-sm-3 col-md-2">
+                <div class="countdown-unit p-3 rounded-4 bg-white-15 backdrop-blur">
+                  <div class="display-5 fw-bold text-white mb-0" id="cdDays">00</div>
+                  <div class="small text-white-50 text-uppercase fw-semibold">Días</div>
+                </div>
+              </div>
+              <div class="col-6 col-sm-3 col-md-2">
+                <div class="countdown-unit p-3 rounded-4 bg-white-15 backdrop-blur">
+                  <div class="display-5 fw-bold text-white mb-0" id="cdHours">00</div>
+                  <div class="small text-white-50 text-uppercase fw-semibold">Horas</div>
+                </div>
+              </div>
+              <div class="col-6 col-sm-3 col-md-2">
+                <div class="countdown-unit p-3 rounded-4 bg-white-15 backdrop-blur">
+                  <div class="display-5 fw-bold text-white mb-0" id="cdMinutes">00</div>
+                  <div class="small text-white-50 text-uppercase fw-semibold">Minutos</div>
+                </div>
+              </div>
+              <div class="col-6 col-sm-3 col-md-2">
+                <div class="countdown-unit p-3 rounded-4 bg-white-15 backdrop-blur">
+                  <div class="display-5 fw-bold text-white mb-0" id="cdSeconds">00</div>
+                  <div class="small text-white-50 text-uppercase fw-semibold">Segundos</div>
+                </div>
+              </div>
+              <div class="col-12 col-md-3">
+                <div class="countdown-unit p-3 rounded-4 bg-white-15 backdrop-blur h-100 d-flex flex-column justify-content-center">
+                  <div class="fs-3 fw-bold text-warning mb-0" id="cdWeeks">0.0</div>
+                  <div class="small text-white-50 text-uppercase fw-semibold">Semanas Restantes</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-2">
+              <button class="btn btn-light rounded-pill px-4 fw-semibold text-primary shadow-sm" onclick="triggerCelebration()">
+                <i class="bi bi-balloon-heart-fill text-danger me-1"></i> ¡Celebrar Progreso!
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Checklist de Preparativos con Filtros -->
+          <div class="col-12 col-xl-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h5 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
+                    <i class="bi bi-card-checklist text-success"></i> Checklist de Hitos y Preparativos
+                  </h5>
+                  <p class="text-muted small mb-0">Hitos clave para coordinar la llegada, hospedaje y preparativos.</p>
+                </div>
+                <span class="badge bg-success-subtle text-success rounded-pill px-3 py-1 fw-bold" id="checklistProgressBadge">
+                  0% Completado
+                </span>
+              </div>
+
+              <!-- Checklist Progress Bar -->
+              <div class="progress mb-3" style="height: 8px;">
+                <div class="progress-bar bg-success rounded-pill" id="checklistProgressBar" style="width: 0%;"></div>
+              </div>
+
+              <!-- Checklist Filter Buttons -->
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 p-2 bg-light rounded-4 mb-3 border border-light-subtle">
+                <div class="d-flex gap-1 align-items-center" id="checklistFilterStatus">
+                  <span class="small fw-bold text-secondary me-1">Estado:</span>
+                  <button class="btn btn-sm btn-outline-secondary rounded-pill active px-2 py-1" onclick="filterChecklist('ALL', this)">Todos</button>
+                  <button class="btn btn-sm btn-outline-warning rounded-pill px-2 py-1" onclick="filterChecklist('PENDING', this)">⏳ Pendientes</button>
+                  <button class="btn btn-sm btn-outline-success rounded-pill px-2 py-1" onclick="filterChecklist('DONE', this)">✓ Listos</button>
+                </div>
+                <div class="d-flex gap-1 align-items-center" id="checklistFilterResp">
+                  <span class="small fw-bold text-secondary me-1">Responsable:</span>
+                  <button class="btn btn-sm btn-outline-secondary rounded-pill active px-2 py-1" onclick="filterChecklistResp('ALL', this)">Todos</button>
+                  <button class="btn btn-sm btn-outline-primary rounded-pill px-2 py-1" onclick="filterChecklistResp('Juan', this)">👦 Juan</button>
+                  <button class="btn btn-sm btn-outline-pink rounded-pill px-2 py-1" onclick="filterChecklistResp('Nathy', this)">👧 Nathy</button>
+                </div>
+              </div>
+
+              <!-- Checklist Items List -->
+              <div class="list-group list-group-flush gap-2" id="checklistContainer">
+                <!-- Dynamically generated -->
+              </div>
+
+              <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#newChecklistItemModal">
+                  <i class="bi bi-plus-lg me-1"></i> Añadir Hito / Tarea
+                </button>
+                <span class="small text-muted" id="checklistCount">0 de 6 completados</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vision Board Moments Gallery -->
+          <div class="col-12 col-xl-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-pin-angle-fill text-warning"></i> Vision Board de la Pareja
+                </h5>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-2" data-bs-toggle="modal" data-bs-target="#newVisionCardModal">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+              <p class="text-muted small mb-3">Los momentos que visualizamos vivir juntos apenas aterrice el avión.</p>
+
+              <div class="row g-3" id="visionBoardCardsContainer">
+                <!-- Dynamically populated cards -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 6: AGENDA DE CITAS                                   -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-agenda" role="tabpanel">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3 pb-2 border-bottom">
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="avatar-badge bg-danger text-white"><i class="bi bi-calendar2-heart"></i></span>
+                <h4 class="fw-bold text-dark mb-0">Agenda Semanal de Citas Virtuales</h4>
+              </div>
+              <p class="text-muted small mt-1 mb-0">Cronograma de actividades especiales para mantener viva la complicidad y el amor mutuo.</p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap align-items-center">
+              <!-- View Switcher -->
+              <div class="btn-group rounded-pill p-1 bg-light border" role="group">
+                <button type="button" class="btn btn-sm rounded-pill active fw-semibold" id="btnDateViewCards" onclick="setDateViewMode('cards')">
+                  <i class="bi bi-grid me-1"></i> Tarjetas
+                </button>
+                <button type="button" class="btn btn-sm rounded-pill fw-semibold text-secondary" id="btnDateViewTable" onclick="setDateViewMode('table')">
+                  <i class="bi bi-table me-1"></i> Tabla
+                </button>
+              </div>
+
+              <button class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#newDateModal">
+                <i class="bi bi-plus-circle-fill"></i> Programar Cita
+              </button>
+              <button class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm d-flex align-items-center gap-1" onclick="switchToTab('tab-boveda')">
+                <i class="bi bi-box2-heart"></i> Bóveda de Ideas
+              </button>
+            </div>
+          </div>
+
+          <!-- Cards View Container -->
+          <div id="datesCardsWrap">
+            <div class="row g-3" id="datesCardsContainer">
+              <!-- Dynamically populated cards -->
+            </div>
+          </div>
+
+          <!-- Table View Container -->
+          <div id="datesTableWrap" class="d-none">
+            <div class="table-responsive rounded-4 border border-light-subtle">
+              <table class="table table-hover align-middle mb-0" id="datesAgendaTable">
+                <thead class="table-light">
+                  <tr>
+                    <th>Día / Fecha</th>
+                    <th>Hora</th>
+                    <th>Actividad</th>
+                    <th>Modalidad</th>
+                    <th>Plataforma</th>
+                    <th>Estado</th>
+                    <th>Notas Especiales</th>
+                    <th class="text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="datesAgendaTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 7: BÓVEDA DE CITAS A DISTANCIA                       -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-boveda" role="tabpanel">
+        
+        <!-- Weekly Mission Hero & Date Roulette -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-lg-8">
+            <div class="card mission-card border-0 shadow-sm rounded-4 p-4 text-white position-relative overflow-hidden h-100 d-flex justify-content-center">
+              <div class="d-flex align-items-center gap-3">
+                <div class="mission-star-icon fs-1">⭐</div>
+                <div class="w-100">
+                  <div class="badge bg-white text-dark rounded-pill px-3 py-1 fw-bold text-uppercase mb-2">Misión Semanal de la Pareja</div>
+                  <h4 class="fw-bold mb-1 cursor-pointer" id="weeklyMissionText" title="Clic para editar la misión semanal" onclick="editWeeklyMission()">Cocina Virtual Simultánea: ¡Preparar pasta casera este Miércoles!</h4>
+                  <p class="text-white-50 small mb-0">Objetivo: Conectarse y preparar la misma cena para cenar juntos a la luz de las velas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ruleta / Generador Aleatorio de Citas -->
+          <div class="col-12 col-lg-4">
+            <div class="card roulette-card border-0 shadow-sm rounded-4 p-4 text-center h-100 d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-dice-5-fill text-danger fs-1 mb-2"></i>
+              <h5 class="fw-bold text-dark mb-1">¿Sin ideas para hoy?</h5>
+              <p class="text-muted small mb-3">Deja que la ruleta decida una cita sorpresa para Juan y Nathy.</p>
+              <button class="btn btn-danger rounded-pill px-4 shadow-sm fw-bold d-flex align-items-center gap-2" onclick="spinDateRoulette()">
+                <i class="bi bi-arrow-repeat"></i> Girar Ruleta de Citas
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="card border-0 shadow-sm rounded-4 p-3 mb-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              <span class="small fw-bold text-secondary me-2">Filtrar por Modalidad:</span>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill active px-3" onclick="filterVaultModalities('ALL', this)">Todas</button>
+              <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="filterVaultModalities('Virtual', this)">💻 Virtual</button>
+              <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="filterVaultModalities('Online', this)">🎮 Online</button>
+              <button class="btn btn-sm btn-outline-success rounded-pill px-3" onclick="filterVaultModalities('Delivery', this)">🛵 Delivery</button>
+              <button class="btn btn-sm btn-outline-warning rounded-pill px-3" onclick="filterVaultModalities('Postal', this)">✉️ Postal</button>
+            </div>
+            <div>
+              <button class="btn btn-sm btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#newVaultIdeaModal">
+                <i class="bi bi-plus-lg me-1"></i> Proponer Nueva Idea
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Idea Cards Grid -->
+        <div class="row g-3" id="vaultIdeasContainer">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TAB 8: PERSONALIZACIÓN, PAREJA Y TEMAS                   -->
+      <!-- ======================================================== -->
+      <div class="tab-pane fade" id="tab-custom" role="tabpanel">
+        
+        <div class="row g-4">
+          <!-- Left: Relationship Details & Users Profiles -->
+          <div class="col-12 col-xl-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+              <h5 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-people-fill text-primary"></i> Gestión de Perfiles de la Pareja
+              </h5>
+              <div class="row g-3">
+                <!-- Juan Settings Card -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded-4 border">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <span class="fs-3" id="custJuanEmoji">👦</span>
+                      <strong class="text-primary" id="custJuanTitle">Perfil de Juan</strong>
+                    </div>
+                    <div class="mb-2">
+                      <label class="small text-muted fw-semibold">Nombre oficial</label>
+                      <input type="text" class="form-control form-control-sm rounded-3" id="custJuanName" value="Juan">
+                    </div>
+                    <div class="mb-2">
+                      <label class="small text-muted fw-semibold">Apodo cariñoso</label>
+                      <input type="text" class="form-control form-control-sm rounded-3" id="custJuanNick" value="Juancito">
+                    </div>
+                    <div class="mb-2">
+                      <label class="small text-muted fw-semibold">Emoji del Avatar</label>
+                      <input type="text" class="form-control form-control-sm rounded-3 text-center" id="custJuanEmojiInput" value="👦" maxlength="3">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Nathy Settings Card -->
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded-4 border">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <span class="fs-3" id="custNathyEmoji">👧</span>
+                      <strong class="text-pink" id="custNathyTitle">Perfil de Nathy</strong>
+                    </div>
+                    <div class="mb-2">
+                      <label class="small text-muted fw-semibold">Nombre oficial</label>
+                      <input type="text" class="form-control form-control-sm rounded-3" id="custNathyName" value="Nathy">
+                    </div>
+                    <div class="mb-2">
+                      <label class="small text-muted fw-semibold">Apodo cariñoso</label>
+                      <input type="text" class="form-control form-control-sm rounded-3" id="custNathyNick" value="Nath">
+                    </div>
+                    <div class="mb-2">
+                      <label class="small text-muted fw-semibold">Emoji del Avatar</label>
+                      <input type="text" class="form-control form-control-sm rounded-3 text-center" id="custNathyEmojiInput" value="👧" maxlength="3">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Relationship Details -->
+              <div class="mt-4 pt-3 border-top">
+                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-heartbreak-fill text-danger me-1"></i> Nuestra Historia & Aniversario</h6>
+                <div class="row g-2 mb-2">
+                  <div class="col-sm-6">
+                    <label class="small text-muted fw-semibold">Fecha de Inicio / Aniversario</label>
+                    <input type="date" class="form-control form-control-sm rounded-3" id="custAnniversaryDate" value="2024-05-15">
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="small text-muted fw-semibold">Canción Especial</label>
+                    <input type="text" class="form-control form-control-sm rounded-3" id="custSong" placeholder="Ej. Perfect - Ed Sheeran">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="small text-muted fw-semibold">Lema o Frase de la Pareja</label>
+                  <input type="text" class="form-control form-control-sm rounded-3" id="custMotto" value="La distancia separa cuerpos, nunca corazones ✨">
+                </div>
+                <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="saveRelationshipSettings()">
+                  <i class="bi bi-check2-circle me-1"></i> Guardar Datos de Pareja
+                </button>
+              </div>
+            </div>
+
+            <!-- Visual Themes Picker -->
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+              <h5 class="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
+                <i class="bi bi-brush-fill text-warning"></i> Paletas y Temas Visuales
+              </h5>
+              <p class="text-muted small mb-3">Personaliza el look and feel de la aplicación para ambos:</p>
+
+              <div class="row g-2">
+                <div class="col-6 col-sm-4">
+                  <button class="btn btn-light w-100 p-3 rounded-4 text-start border d-flex flex-column gap-1 theme-btn" onclick="applyTheme('sunset')">
+                    <span class="fs-4">🌸</span>
+                    <strong class="small text-dark">Sunset Rose</strong>
+                    <span class="text-muted" style="font-size: 0.7rem;">Rosa, Frambuesa & Violeta</span>
+                  </button>
+                </div>
+                <div class="col-6 col-sm-4">
+                  <button class="btn btn-light w-100 p-3 rounded-4 text-start border d-flex flex-column gap-1 theme-btn" onclick="applyTheme('midnight')">
+                    <span class="fs-4">💜</span>
+                    <strong class="small text-dark">Midnight Violet</strong>
+                    <span class="text-muted" style="font-size: 0.7rem;">Lavanda & Índigo Profundo</span>
+                  </button>
+                </div>
+                <div class="col-6 col-sm-4">
+                  <button class="btn btn-light w-100 p-3 rounded-4 text-start border d-flex flex-column gap-1 theme-btn" onclick="applyTheme('ocean')">
+                    <span class="fs-4">🌊</span>
+                    <strong class="small text-dark">Ocean Breeze</strong>
+                    <span class="text-muted" style="font-size: 0.7rem;">Cian, Turquesa & Azul</span>
+                  </button>
+                </div>
+                <div class="col-6 col-sm-4">
+                  <button class="btn btn-light w-100 p-3 rounded-4 text-start border d-flex flex-column gap-1 theme-btn" onclick="applyTheme('sage')">
+                    <span class="fs-4">🌿</span>
+                    <strong class="small text-dark">Sage Garden</strong>
+                    <span class="text-muted" style="font-size: 0.7rem;">Verde Menta & Eucalipto</span>
+                  </button>
+                </div>
+                <div class="col-6 col-sm-4">
+                  <button class="btn btn-light w-100 p-3 rounded-4 text-start border d-flex flex-column gap-1 theme-btn" onclick="applyTheme('dark')">
+                    <span class="fs-4">🌙</span>
+                    <strong class="small text-dark">Dark Romance</strong>
+                    <span class="text-muted" style="font-size: 0.7rem;">Modo Oscuro Aterciopelado</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Schedule Categories Customizer & Love Notes -->
+          <div class="col-12 col-xl-6">
+            <!-- Categories Editor -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h5 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                    <i class="bi bi-tags-fill text-indigo"></i> Catálogo de Categorías del Horario
+                  </h5>
+                  <p class="text-muted small mb-0">Crea o personaliza las actividades, sus colores y reglas.</p>
+                </div>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#newCategoryModal">
+                  <i class="bi bi-plus-lg me-1"></i> Nueva Categoría
+                </button>
+              </div>
+
+              <div class="table-responsive rounded-4 border border-light-subtle">
+                <table class="table table-hover align-middle mb-0" id="categoriesTable">
+                  <thead class="table-light">
+                    <tr>
+                      <th style="width: 70px;">Color</th>
+                      <th>Nombre</th>
+                      <th>Regla de Interacción</th>
+                      <th class="text-center" style="min-width: 190px;">¿Tiempo en Pareja?</th>
+                      <th class="text-end" style="width: 80px;">Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody id="categoriesTableBody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Love Notes / Buzón de Cartas -->
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h5 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                    <i class="bi bi-envelope-heart-fill text-danger"></i> Buzón de Amor & Notas Secretas
+                  </h5>
+                  <p class="text-muted small mb-0">Déjale un mensaje dulce a tu pareja para cuando abra la app.</p>
+                </div>
+                <button class="btn btn-sm btn-danger rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#loveNotesModal">
+                  <i class="bi bi-send-heart-fill me-1"></i> Escribir Notita
+                </button>
+              </div>
+
+              <!-- Love Notes Feed Container -->
+              <div class="d-flex flex-column gap-3" id="loveNotesFeed" style="max-height: 420px; overflow-y: auto;">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODALS SECTION                                           -->
+  <!-- ======================================================== -->
+
+  <!-- 1. Modal: Resumen Mensual con Gráficos -->
+  <div class="modal fade" id="monthlySummaryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0">
+          <div>
+            <h4 class="fw-bold mb-0 text-dark d-flex align-items-center gap-2">
+              <i class="bi bi-pie-chart-fill text-primary"></i> Resumen Mensual Integral
+            </h4>
+            <p class="text-muted small mb-0">Consolidado operativo, financiero y afectivo del mes en curso.</p>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <!-- Top monthly metrics bar -->
+          <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-lg-3">
+              <div class="p-3 bg-light rounded-4 text-center border">
+                <div class="small text-muted fw-semibold">Horas Conexión Mensual</div>
+                <div class="fs-3 fw-bold text-primary" id="mSumHours">177.5 h</div>
+                <div class="small text-success">Meta mensual: 160h superada 🎉</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="p-3 bg-light rounded-4 text-center border">
+                <div class="small text-muted fw-semibold">Citas Realizadas/Planificadas</div>
+                <div class="fs-3 fw-bold text-pink" id="mSumDates">4 citas</div>
+                <div class="small text-muted">100% de cumplimiento</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="p-3 bg-light rounded-4 text-center border">
+                <div class="small text-muted fw-semibold">Fondo Acumulado</div>
+                <div class="fs-3 fw-bold text-success" id="mSumSaved">$1,350 USD</div>
+                <div class="small text-muted">67.5% de la meta de $2,000</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="p-3 bg-light rounded-4 text-center border">
+                <div class="small text-muted fw-semibold">Hitos del Reencuentro</div>
+                <div class="fs-3 fw-bold text-indigo" id="mSumChecklist">33.3%</div>
+                <div class="small text-muted">2 de 6 tareas listas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts row -->
+          <div class="row g-4">
+            <div class="col-12 col-lg-6">
+              <div class="p-3 border rounded-4">
+                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-clock-history me-1"></i> Distribución de Tiempo Semanal (Horas)</h6>
+                <div style="height: 250px;">
+                  <canvas id="timeDistributionChart"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="p-3 border rounded-4">
+                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-cash-stack me-1"></i> Proporción de Gastos por Categoría</h6>
+                <div style="height: 250px;">
+                  <canvas id="expensesCategoryChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <a href="/api/export/excel" class="btn btn-outline-success rounded-pill px-3">
+            <i class="bi bi-download me-1"></i> Descargar Reporte en Excel
+          </a>
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal: Configuración General -->
+  <div class="modal fade" id="configModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-gear-fill me-2 text-primary"></i>Configuración de Parámetros</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Fecha del Reencuentro</label>
+            <input type="datetime-local" class="form-control rounded-3" id="configReunionDate">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Lugar / Hito</label>
+            <input type="text" class="form-control rounded-3" id="configReunionLocation">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Tipo de Cambio USD / PEN (Soles)</label>
+            <div class="input-group">
+              <span class="input-group-text">1 USD = S/.</span>
+              <input type="number" step="0.01" class="form-control" id="configExchangeRate">
+            </div>
+            <div class="form-text">Corrige cualquier distorsión entre Soles y Dólares.</div>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="small text-danger fw-semibold">Zona de Peligro</span>
+            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="resetToDefaults()">
+              <i class="bi bi-arrow-counterclockwise me-1"></i> Restablecer Datos de Fábrica
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="saveConfiguration()">Guardar Parámetros</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal: Buzón de Amor / Nueva Notita -->
+  <div class="modal fade" id="loveNotesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="fw-bold text-danger mb-0"><i class="bi bi-envelope-heart-fill me-2"></i>Enviar Notita de Amor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">Escribe una dedicatoria, recordatorio o mensaje sorpresa para tu pareja:</p>
+          <div class="mb-3">
+            <textarea class="form-control rounded-3" id="newLoveNoteText" rows="4" placeholder="Mi amor, solo quería recordarte que... 💖"></textarea>
+          </div>
+          <div class="d-flex align-items-center gap-2 small text-muted">
+            <span>Enviando como:</span>
+            <strong class="text-dark" id="noteAuthorDisplay">Juan</strong>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold" onclick="sendLoveNote()">
+            <i class="bi bi-send-fill me-1"></i> Enviar al Buzón
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal: Actualizar Estado de Ánimo / Pensamiento -->
+  <div class="modal fade" id="moodModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+            <span id="moodModalAvatar" class="fs-4">👦</span>
+            <span>Actualizar Estado de <span id="moodModalUser">Juan</span></span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">¿Qué estás pensando o haciendo en este momento?</label>
+            <input type="text" class="form-control rounded-3" id="inputUserMood" placeholder="Ej. ¡Contando las horas para nuestra cita! 💕">
+          </div>
+          <div class="d-flex flex-wrap gap-1">
+            <button class="btn btn-sm btn-light border rounded-pill" onclick="setQuickMood('¡Te extraño mucho! 💕')">Te extraño 💕</button>
+            <button class="btn btn-sm btn-light border rounded-pill" onclick="setQuickMood('Estudiando / Trabajando a full 💼')">Estudiando 💼</button>
+            <button class="btn btn-sm btn-light border rounded-pill" onclick="setQuickMood('En camino a casa 🚗')">En camino 🚗</button>
+            <button class="btn btn-sm btn-light border rounded-pill" onclick="setQuickMood('¡Listo para nuestra cita! ✨')">Listo para la cita ✨</button>
+            <button class="btn btn-sm btn-light border rounded-pill" onclick="setQuickMood('Descansando un ratito 😴')">Descansando 😴</button>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="saveUserMood()">Guardar Estado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Modal: Perfil del Usuario Activo -->
+  <div class="modal fade" id="userProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-person-gear me-2 text-primary"></i>Personalizar Mi Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <div class="user-avatar-circle mx-auto mb-2" id="modalProfAvatar" style="width: 64px; height: 64px; font-size: 2.2rem; background: #e0e7ff;">👦</div>
+            <strong class="fs-5 text-dark" id="modalProfName">Juan</strong>
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Mi Apodo Especial</label>
+            <input type="text" class="form-control rounded-3" id="inputProfNick">
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Emoji de Avatar</label>
+            <input type="text" class="form-control rounded-3 text-center" id="inputProfEmoji" maxlength="3">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="saveActiveUserProfile()">Guardar Perfil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5B. Modal: Cambiar PIN de Acceso -->
+  <div class="modal fade" id="changePinModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-shield-lock-fill me-2 text-warning"></i>Cambiar PIN de Acceso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted mb-3">Establece un código numérico para que solo tú puedas ingresar a tu perfil y editar tu horario.</p>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">PIN Actual</label>
+            <input type="password" maxlength="8" class="form-control rounded-3" id="currPinInput" placeholder="PIN actual">
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Nuevo PIN (Mínimo 4 dígitos)</label>
+            <input type="password" maxlength="8" class="form-control rounded-3" id="newPinInput" placeholder="Nuevo PIN">
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Confirmar Nuevo PIN</label>
+            <input type="password" maxlength="8" class="form-control rounded-3" id="confirmNewPinInput" placeholder="Confirmar nuevo PIN">
+          </div>
+          <div id="changePinFeedback" class="alert alert-danger py-2 small d-none"></div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="performChangePin()">Guardar Nuevo PIN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Modal: Nueva Categoría de Horario -->
+  <div class="modal fade" id="newCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-tag-fill me-2 text-indigo"></i>Crear Nueva Categoría de Horario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Nombre de la Categoría</label>
+            <input type="text" class="form-control rounded-3" id="newCatName" placeholder="Ej. Gimnasio / Deporte">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="small text-muted fw-semibold">Color Representativo</label>
+              <input type="color" class="form-control form-control-color w-100 rounded-3" id="newCatColor" value="#06b6d4">
+            </div>
+            <div class="col-6">
+              <label class="small text-muted fw-semibold">Ícono (Bootstrap Icon)</label>
+              <input type="text" class="form-control rounded-3" id="newCatIcon" value="bi-activity">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Regla de Interacción de la Pareja</label>
+            <input type="text" class="form-control rounded-3" id="newCatRule" placeholder="Ej. Se puede llamar solo al finalizar.">
+          </div>
+          <!-- Switch: ¿Cuenta como tiempo en pareja? -->
+          <div class="mb-3 p-3 bg-light rounded-4 border">
+            <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+              <div>
+                <label class="form-check-label fw-bold text-dark cursor-pointer d-flex align-items-center gap-2 mb-0" for="newCatIsCoupleTime">
+                  <i class="bi bi-heart-fill text-danger"></i> ¿Cuenta como tiempo en pareja?
+                </label>
+                <div class="text-muted small" style="font-size: 0.78rem;">Si está activado (Sí), las horas de esta actividad sumarán como citas y conexión.</div>
+              </div>
+              <div class="d-flex align-items-center gap-2 ms-2">
+                <input class="form-check-input couple-time-switch" type="checkbox" role="switch" id="newCatIsCoupleTime" style="cursor: pointer; width: 2.5em; height: 1.3em;" onchange="updateNewCatSwitchLabel(this)">
+                <span class="badge bg-light border text-muted fw-bold" id="newCatSwitchLabel" style="min-width: 110px;">No (Desactivado)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="addCustomCategory()">Crear Categoría</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Modal: Nueva Tarjeta de Vision Board -->
+  <div class="modal fade" id="newVisionCardModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pin-angle-fill me-2 text-warning"></i>Añadir Momento al Vision Board</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Título del Momento</label>
+            <input type="text" class="form-control rounded-3" id="vbTitle" placeholder="Ej. Cocinar desayuno juntos sin apuro">
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Etiqueta / Badge</label>
+            <input type="text" class="form-control rounded-3" id="vbBadge" placeholder="Ej. Mañana Soñada">
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Descripción o Sentimiento</label>
+            <textarea class="form-control rounded-3" id="vbDesc" rows="2" placeholder="Despertar y preparar café con calma..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-warning rounded-pill px-4 fw-bold" onclick="addVisionBoardCard()">Guardar Momento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Modal: Importar JSON -->
+  <div class="modal fade" id="importModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-upload me-2 text-warning"></i>Importar Copia de Seguridad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">Selecciona un archivo <code>.json</code> previamente exportado para restaurar todos los horarios, finanzas y citas.</p>
+          <div class="mb-3">
+            <input class="form-control rounded-3" type="file" id="jsonFileInput" accept=".json">
+          </div>
+          <div id="importFeedback" class="alert alert-info py-2 small d-none"></div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-warning rounded-pill px-4 fw-bold" onclick="handleImportFile()">Cargar Datos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Modal: Nuevo Gasto de Viaje -->
+  <div class="modal fade" id="newExpenseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-plus-circle-fill me-2 text-primary"></i>Añadir Gasto de Viaje</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Concepto</label>
+            <input type="text" class="form-control rounded-3" id="expConcept" placeholder="Ej. Cena romántica en restaurante panorámico">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Categoría</label>
+              <select class="form-select rounded-3" id="expCategory">
+                <option value="Vuelos">Vuelos</option>
+                <option value="Alojamiento">Alojamiento</option>
+                <option value="Seguros">Seguros</option>
+                <option value="Alimentación">Alimentación</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Ocio">Ocio</option>
+                <option value="Reserva">Reserva</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Monto (USD)</label>
+              <input type="number" step="10" class="form-control rounded-3" id="expAmountUSD" placeholder="0.00">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Notas Adicionales</label>
+            <input type="text" class="form-control rounded-3" id="expNotes" placeholder="Detalles o reservaciones...">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="addExpense()">Guardar Gasto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Modal: Programar Cita en la Agenda -->
+  <div class="modal fade" id="newDateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-calendar2-heart-fill me-2 text-danger"></i>Programar Cita Virtual</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Título de la Actividad</label>
+            <input type="text" class="form-control rounded-3" id="dateActivity" placeholder="Ej. Cocinar tacos juntos">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Día de la Semana</label>
+              <select class="form-select rounded-3" id="dateDay">
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+                <option value="Domingo">Domingo</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Hora</label>
+              <input type="time" class="form-control rounded-3" id="dateTime" value="21:00">
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Modalidad</label>
+              <select class="form-select rounded-3" id="dateModality">
+                <option value="Virtual">Virtual</option>
+                <option value="Online">Online</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Postal">Postal</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Plataforma</label>
+              <input type="text" class="form-control rounded-3" id="datePlatform" placeholder="Google Meet, Discord, etc.">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Notas / Preparativos</label>
+            <input type="text" class="form-control rounded-3" id="dateNotes" placeholder="Ingredientes o película a elegir...">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger rounded-pill px-4" onclick="addAgendaDate()">Agendar Cita</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Modal: Nuevo Hito en Checklist -->
+  <div class="modal fade" id="newChecklistItemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-card-checklist me-2 text-success"></i>Nuevo Hito para el Reencuentro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Descripción de la Tarea</label>
+            <input type="text" class="form-control rounded-3" id="checkTask" placeholder="Ej. Comprar equipaje de mano">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Responsable</label>
+              <select class="form-select rounded-3" id="checkResponsible">
+                <option value="Ambos">Ambos</option>
+                <option value="Juan">Juan</option>
+                <option value="Nathy">Nathy</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Fecha Límite</label>
+              <input type="date" class="form-control rounded-3" id="checkDeadline">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success rounded-pill px-4" onclick="addChecklistItem()">Añadir Hito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. Modal: Proponer Idea en Bóveda -->
+  <div class="modal fade" id="newVaultIdeaModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-lightbulb-fill me-2 text-warning"></i>Proponer Idea para la Bóveda</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Título de la Idea</label>
+            <input type="text" class="form-control rounded-3" id="vaultTitle" placeholder="Ej. Tarde de lectura compartida">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Modalidad</label>
+              <select class="form-select rounded-3" id="vaultModality">
+                <option value="Virtual">Virtual</option>
+                <option value="Online">Online</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Postal">Postal</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-semibold text-muted">Duración Estimada</label>
+              <input type="text" class="form-control rounded-3" id="vaultDuration" placeholder="1 hora">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Descripción</label>
+            <textarea class="form-control rounded-3" id="vaultDescription" rows="2" placeholder="En qué consiste la dinámica..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted">Consejo Especial</label>
+            <input type="text" class="form-control rounded-3" id="vaultTip" placeholder="Un detalle para hacerlo más bonito...">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4" onclick="addVaultIdea()">Guardar en la Bóveda</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. Modal: Copiar Día a Otros Días (Herramienta Masiva de Horario) -->
+  <div class="modal fade" id="copyDayModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="fw-bold text-dark mb-0"><i class="bi bi-copy me-2 text-primary"></i>Copiar Horario de un Día a Otros</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">Ahorra tiempo duplicando tu rutina de un día hacia el resto de la semana laboral o fin de semana.</p>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Copiar desde el día:</label>
+            <select class="form-select rounded-3" id="copySourceDay">
+              <option value="Lunes">Lunes</option>
+              <option value="Martes">Martes</option>
+              <option value="Miércoles">Miércoles</option>
+              <option value="Jueves">Jueves</option>
+              <option value="Viernes">Viernes</option>
+              <option value="Sábado">Sábado</option>
+              <option value="Domingo">Domingo</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="small text-muted fw-semibold">Pegar hacia los días:</label>
+            <div class="d-flex flex-wrap gap-2 mt-1" id="copyTargetDaysChecks">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopyLun" value="Lunes">
+                <label class="form-check-label small" for="chkCopyLun">Lun</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopyMar" value="Martes" checked>
+                <label class="form-check-label small" for="chkCopyMar">Mar</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopyMie" value="Miércoles" checked>
+                <label class="form-check-label small" for="chkCopyMie">Mié</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopyJue" value="Jueves" checked>
+                <label class="form-check-label small" for="chkCopyJue">Jue</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopyVie" value="Viernes" checked>
+                <label class="form-check-label small" for="chkCopyVie">Vie</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopySab" value="Sábado">
+                <label class="form-check-label small" for="chkCopySab">Sáb</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="chkCopyDom" value="Domingo">
+                <label class="form-check-label small" for="chkCopyDom">Dom</label>
+              </div>
+            </div>
+            <div class="mt-2">
+              <button type="button" class="btn btn-sm btn-light border rounded-pill px-2 py-0" onclick="selectAllWorkdaysForCopy()">Seleccionar Lun-Vie</button>
+              <button type="button" class="btn btn-sm btn-light border rounded-pill px-2 py-0" onclick="selectAllWeekendForCopy()">Seleccionar Fin de Semana</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" onclick="executeCopyDay()">
+            <i class="bi bi-clipboard-check me-1"></i> Aplicar Copia
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. Custom App Dialog Modal (Replaces browser alert/confirm/prompt) -->
+  <div class="modal fade" id="customAppModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content rounded-4 border-0 shadow-lg text-center p-3">
+        <div class="modal-body p-3">
+          <div class="fs-1 mb-2" id="customModalIcon">💖</div>
+          <h5 class="fw-bold text-dark mb-2" id="customModalTitle">Título</h5>
+          <p class="text-muted small mb-3" id="customModalMessage">Mensaje del sistema</p>
+          <div id="customModalInputWrap" class="mb-3 d-none">
+            <input type="text" class="form-control rounded-3 text-center" id="customModalInput">
+          </div>
+          <div class="d-flex justify-content-center gap-2" id="customModalButtons">
+            <button type="button" class="btn btn-secondary rounded-pill px-3" data-bs-dismiss="modal" id="customModalCancelBtn">Cancelar</button>
+            <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" id="customModalConfirmBtn">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
